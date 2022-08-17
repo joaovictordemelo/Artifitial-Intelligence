@@ -294,3 +294,47 @@ LEFT JOIN (
   GROUP BY country_id, season) AS outer_s
 ON c.id = outer_s.country_id
 GROUP BY country;
+
+
+--obs
+
+-- Correlated subqueries are one method of reducing the number of joins.
+-- CTEs are stored in memory, reducing query run time.
+--Subqueries are processed by SQL first, before your main query.
+--Although correlated subqueries can reduce the length of your query, they also significantly increase query run time.
+
+
+--below we have the usage of ranks 
+
+SELECT 
+	-- Select the league name and average goals scored
+	l.name AS league,
+    AVG(m.home_goal + m.away_goal) AS avg_goals,
+    -- Rank each league according to the average goals
+    RANK() OVER(ORDER BY AVG(m.home_goal + m.away_goal)) AS league_rank
+FROM league AS l
+LEFT JOIN match AS m 
+ON l.id = m.country_id
+WHERE m.season = '2011/2012'
+GROUP BY l.name
+-- Order the query by the rank you created
+ORDER BY league_rank;
+
+
+--unbounded following 
+--https://campus.datacamp.com/courses/intermediate-sql/window-functions-4?ex=10
+
+SELECT 
+	-- Select the date, home goal, and away goals
+	date,
+    home_goal,
+    away_goal,
+    -- Create a running total and running average of home goals
+    SUM(home_goal) OVER(ORDER BY date DESC
+         ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) AS running_total,
+    AVG(home_goal) OVER(ORDER BY date DESC
+         ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) AS running_avg
+FROM match
+WHERE 
+	awayteam_id = 9908 
+    AND season = '2011/2012';
