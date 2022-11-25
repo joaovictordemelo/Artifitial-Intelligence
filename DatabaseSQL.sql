@@ -338,3 +338,15 @@ FROM match
 WHERE 
 	awayteam_id = 9908 
     AND season = '2011/2012';
+    
+    
+    
+    
+--to put new primary keys to the table in postgres
+
+
+
+--alter table arestas drop constraint arestas_pk
+alter table arestas add primary key (gid, estado)
+
+
