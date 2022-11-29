@@ -349,4 +349,6 @@ WHERE
 --alter table arestas drop constraint arestas_pk
 alter table arestas add primary key (gid, estado)
 
+ALTER TABLE arestas ADD uf VARCHAR(2);
+
 
