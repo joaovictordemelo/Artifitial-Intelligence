@@ -176,3 +176,32 @@ print(cars[0:3])
 # Print out fourth, fifth and sixth observation
 print(cars.iloc[[3,4,5], :])
 
+
+
+
+
+#Hypothesis tests and z-scores
+
+#The z-score is a standardized measure of the difference between the sample statistic and the hypothesized statistic.
+
+
+#obs.: Significance level: is beyond a reasonable doubt for hypothesis testing
+
+#either Ha or H0 is true (not both)
+
+#obs.: H0 is initially assumed to be true
+
+
+#obs.: p-values: probability of obtaining a result, assuming the null hyp. is true.
+
+calculation:
+
+# Calculate the z-score of late_prop_samp
+z_score = (late_prop_samp-late_prop_hyp)/std_error
+
+# Calculate the p-value
+p_value = 1 - norm.cdf(z_core, loc = 0, scale = 1)
+                 
+# Print the p-value
+print(p_value) 
+
