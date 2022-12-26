@@ -200,8 +200,10 @@ calculation:
 z_score = (late_prop_samp-late_prop_hyp)/std_error
 
 # Calculate the p-value
-p_value = 1 - norm.cdf(z_core, loc = 0, scale = 1)
+p_value = 1 - norm.cdf(z_score, loc = 0, scale = 1)
                  
 # Print the p-value
 print(p_value) 
+
+# The p-value is calculated by transforming the z-score with the standard normal cumulative distribution function.
 
