@@ -207,3 +207,53 @@ print(p_value)
 
 # The p-value is calculated by transforming the z-score with the standard normal cumulative distribution function.
 
+
+#confidence intervals calculations
+#95 percent interval
+
+import numpy as np
+lower = np.quantile(first_code_boot_distn, 0.025)
+upper = np.quantile(first_code_boot_distn, 0.975)
+print((lower, upper))
+
+
+
+# Calculate the degrees of freedom
+degrees_of_freedom = n_no + n_yes - 2
+
+# Calculate the p-value from the test stat
+p_value = t.cdf(t_stat, df=degrees_of_freedom)
+
+# Print the p_value
+print(p_value)
+
+
+
+#t test 
+
+# Conduct a t-test on diff
+test_results = pingouin.ttest(x = sample_dem_data['diff'], 
+y=0, alternative='two-sided')
+                              
+# Print the test results
+print(test_results)
+
+
+
+# Conduct a t-test on diff
+test_results = pingouin.ttest(x=sample_dem_data['diff'], 
+                              y=0, 
+                              alternative="two-sided")
+
+# Conduct a paired t-test on dem_percent_12 and dem_percent_16
+paired_test_results = pingouin.ttest(x=sample_dem_data['dem_percent_12'],
+                                     y = sample_dem_data['dem_percent_16'],
+
+                                     paired = True,
+                              alternative="two-sided")
+
+
+
+                              
+# Print the paired test results
+print(paired_test_results)
