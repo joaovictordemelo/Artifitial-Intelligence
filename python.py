@@ -257,3 +257,9 @@ paired_test_results = pingouin.ttest(x=sample_dem_data['dem_percent_12'],
                               
 # Print the paired test results
 print(paired_test_results)
+
+
+
+
+#anova tests
+
