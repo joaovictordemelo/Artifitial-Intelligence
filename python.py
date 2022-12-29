@@ -261,5 +261,89 @@ print(paired_test_results)
 
 
 
-#anova tests
+#using the group by
+
+# Count the late column values for each freight_cost_group
+late_by_freight_cost_group = late_shipments.groupby("freight_cost_group")['late'].value_counts()
+
+# Print the counts
+print(late_by_freight_cost_group)
+
+print(late_shipments['late'])
+
+
+#chi square test of independence
+
+#obs.: anova extends t-test to more than two groups
+#obs.: chi square test extends proportions test to more two groups
+#obs.: The chi-square distribution is defined only for positive x values.
+#obs.: The chi-square test statistic is a square number, so it is always non-negative, so only the right tail tends to be of interest.
+
+
+
+#obs.: The chi-square independence test compares proportions of successes of one categorical variable across the categories of another categorical variable.
+
+
+# Proportion of freight_cost_group grouped by vendor_inco_term
+props = late_shipments.groupby('vendor_inco_term')['freight_cost_group'].value_counts(normalize=True)
+
+# Print props
+print(props)
+
+
+
+
+#Perform a chi-square test of independence on freight_cost_group and vendor_inco_term in the late_shipments dataset.
+
+# Proportion of freight_cost_group grouped by vendor_inco_term
+props = late_shipments.groupby('vendor_inco_term')['freight_cost_group'].value_counts(normalize=True)
+
+# Convert props to wide format
+wide_props = props.unstack()
+
+# Proportional stacked bar plot of freight_cost_group vs. vendor_inco_term
+wide_props.plot(kind="bar", stacked=True)
+plt.show()
+
+# Determine if freight_cost_group and vendor_inco_term are independent
+expected, observed, stats = pingouin.chi2_independence(data=late_shipments, x="vendor_inco_term", y="freight_cost_group")
+
+# Print results
+print(stats[stats['test'] == 'pearson']) 
+
+#obs.: NULL HYP. H0 means that we have to consider independency  
+#obs.: Reject the null hypothesis and conclude that vendor_inco_term and freight_cost_group are associated.
+
+
+
+#Visualizing goodness of fit 
+
+#obs.: The chi-square goodness of fit test compares proportions of each level of a categorical variable to hypothesized values. 
+
+
+
+
+
+# Perform a goodness of fit test on the incoterm counts n
+gof_test = chisquare(f_obs = incoterm_counts['n'], f_exp =hypothesized['n'] )
+
+
+# Print gof_test results
+print(gof_test)
+
+
+#assumptions in Hyp. testing
+
+#z-test, t-test, and ANOVA are parametric tests (normal distr. and limit theorem applies)
+
+
+#below we have the Wilcoxon signed-rank test
+
+# Conduct a Wilcoxon test on dem_percent_12 and dem_percent_16
+wilcoxon_test_results = pingouin.wilcoxon(x=sample_dem_data['dem_percent_12'], 
+                                          y=sample_dem_data['dem_percent_16'],
+                                          alternative="two-sided")
+
+# Print Wilcoxon test results
+print(wilcoxon_test_results)
 
